@@ -1,0 +1,9 @@
+{
+  "localtime.category": "LocalTime",
+  "localtime.open.gui": "Открыть GUI",
+  "localtime.current_local_time": "Текущее локальное время: %s",
+  "localtime.server_time": "Серверное время",
+  "localtime.clear_weather": "Всегда ясная погода",
+  "localtime.done": "Готово",
+  "localtime.local_time_editor": "Редактор локального времени"
+}

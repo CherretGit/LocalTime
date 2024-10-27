@@ -1,0 +1,9 @@
+{
+  "localtime.category": "LocalTime",
+  "localtime.open.gui": "Open GUI",
+  "localtime.current_local_time": "Current local time: %s",
+  "localtime.server_time": "Server Time",
+  "localtime.clear_weather": "Clear Weather",
+  "localtime.done": "Done",
+  "localtime.local_time_editor": "Local Time Editor"
+}

@@ -1,0 +1,37 @@
+{
+	"schemaVersion": 1,
+	"id": "localtime",
+	"version": "${version}",
+	"name": "LocalTime",
+	"description": "This mod allows you to locally change the time and weather",
+	"authors": [
+		"Cherret"
+	],
+	"contact": {
+		"homepage": "https://modrinth.com/project/localtime",
+		"sources": "https://github.com/CherretGit/LocalTime"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/localtime/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"client": [
+			"com.cherret.LocalTimeClient"
+		]
+	},
+	"mixins": [
+		{
+			"config": "localtime.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.16.7",
+		"minecraft": "~1.21.2",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
