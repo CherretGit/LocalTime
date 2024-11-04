@@ -9,11 +9,13 @@ import net.minecraft.text.Text;
 
 
 import static com.cherret.Time.*;
+import static com.cherret.Weather.*;
 
 public class TimeScreen extends Screen {
     public Screen parent;
     private static final MinecraftClient client = MinecraftClient.getInstance();
-
+    private static ButtonWidget buttonWidgetClear;
+    private static ButtonWidget buttonWidgetRain;
 
     protected TimeScreen(Text title, Screen parent) {
         super(title);
@@ -25,7 +27,7 @@ public class TimeScreen extends Screen {
         int windowHeight = client.getWindow().getScaledHeight();
         int x = windowWidth / 2;
         int y = windowHeight / 2;
-        SliderWidget sliderWidgetTime = new SliderWidget(x-20, y-70, 140, 20, Text.translatable("localtime.current_local_time", getTime()), (double) getTime() / 24000) {
+        SliderWidget sliderWidgetTime = new SliderWidget(x-20, y-67, 140, 20, Text.translatable("localtime.current_local_time", getTime()), (double) getTime() / 24000) {
             @Override
             protected void updateMessage() {
                 setTime((long) (this.value * 24000));
@@ -43,17 +45,41 @@ public class TimeScreen extends Screen {
                 .callback((checkbox, checked) -> setIsTimeSync(checked))
                 .pos(x-140, y-65)
                 .build();
-        CheckboxWidget checkboxWidgetWeather = CheckboxWidget.builder(Text.translatable("localtime.clear_weather"), textRenderer)
-                .option(SimpleOption.ofBoolean(this.toString(), getIsClear()))
-                .callback((checkbox, checked) -> setClear(checked))
+        CheckboxWidget checkboxWidgetWeather = CheckboxWidget.builder(Text.translatable("localtime.sync_weather"), textRenderer)
+                .option(SimpleOption.ofBoolean(this.toString(), isWeatherSync()))
+                .callback((checkbox, checked) -> setWeatherSync(checked))
                 .pos(x-140, y-25)
                 .build();
+        buttonWidgetClear = ButtonWidget.builder(Text.translatable("localtime.clear_weather"), (btn) -> {
+            setClear(true);
+            btn.active = false;
+            if (isRain()) {
+                buttonWidgetRain.active = true;
+                setRain(false);
+            }
+        }).dimensions(x, y-27, 50, 20).build();
+        buttonWidgetRain = ButtonWidget.builder(Text.translatable("localtime.rain_weather"), (btn) -> {
+            setRain(true);
+            btn.active = false;
+            if (isClear()) {
+                buttonWidgetClear.active = true;
+                setClear(false);
+            }
+        }).dimensions(x+50, y-27, 50, 20).build();
         ButtonWidget buttonWidget = ButtonWidget.builder(Text.translatable("localtime.done"), (btn) -> {
             close();
         }).dimensions(x-60, y+50, 120, 20).build();
+        if (isClear()) {
+            buttonWidgetClear.active = false;
+        }
+        else if (isRain()) {
+            buttonWidgetRain.active = false;
+        }
         this.addDrawableChild(sliderWidgetTime);
         this.addDrawableChild(checkboxWidgetTime);
         this.addDrawableChild(checkboxWidgetWeather);
+        this.addDrawableChild(buttonWidgetClear);
+        this.addDrawableChild(buttonWidgetRain);
         this.addDrawableChild(buttonWidget);
     }
 

@@ -11,7 +11,7 @@
 		"homepage": "https://modrinth.com/project/localtime",
 		"sources": "https://github.com/CherretGit/LocalTime"
 	},
-	"license": "CC0-1.0",
+	"license": "GPL-3.0",
 	"icon": "assets/localtime/icon.png",
 	"environment": "*",
 	"entrypoints": {
@@ -26,8 +26,8 @@
 		}
 	],
 	"depends": {
-		"fabricloader": ">=0.16.7",
-		"minecraft": "~1.21.2",
+		"fabricloader": ">=0.16.9",
+		"minecraft": "~1.21.3",
 		"java": ">=21",
 		"fabric-api": "*"
 	},
