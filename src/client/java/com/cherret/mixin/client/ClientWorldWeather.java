@@ -19,12 +19,7 @@ public abstract class ClientWorldWeather extends World {
 
     @Override
     public boolean isRaining() {
-        if (!isWeatherSync()) {
-            if (isRain()) {
-                return true;
-            }
-        }
-        return false;
+        return !isWeatherSync() && isRain();
     }
 
     @Override

@@ -14,13 +14,14 @@ import static com.cherret.Weather.*;
 public class TimeScreen extends Screen {
     public Screen parent;
     private static final MinecraftClient client = MinecraftClient.getInstance();
-    private static ButtonWidget buttonWidgetClear;
-    private static ButtonWidget buttonWidgetRain;
+    private ButtonWidget buttonWidgetClear;
+    private ButtonWidget buttonWidgetRain;
 
     protected TimeScreen(Text title, Screen parent) {
         super(title);
         this.parent = parent;
     }
+
     @Override
     protected void init() {
         int windowWidth = client.getWindow().getScaledWidth();
