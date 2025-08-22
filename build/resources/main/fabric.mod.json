@@ -1,7 +1,7 @@
 {
 	"schemaVersion": 1,
 	"id": "localtime",
-	"version": "${version}",
+	"version": "1.2.1",
 	"name": "LocalTime",
 	"description": "This mod allows you to locally change the time and weather",
 	"authors": [
