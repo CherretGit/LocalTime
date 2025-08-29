@@ -1,0 +1,14 @@
+{
+  "mappings": {
+    "com/cherret/mixin/client/ClientWorldPropertiesMixin": {
+      "getTimeOfDay": "Lnet/minecraft/class_638$class_5271;method_217()J"
+    }
+  },
+  "data": {
+    "named:intermediary": {
+      "com/cherret/mixin/client/ClientWorldPropertiesMixin": {
+        "getTimeOfDay": "Lnet/minecraft/class_638$class_5271;method_217()J"
+      }
+    }
+  }
+}
