@@ -8,9 +8,11 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 
 public class LocalTimeClient implements ClientModInitializer {
+  private static KeyBinding.Category category = KeyBinding.Category.create(Identifier.of("localtime", "keybindings"));
 	private static KeyBinding keyBinding;
 	@Override
 	public void onInitializeClient() {
@@ -18,7 +20,7 @@ public class LocalTimeClient implements ClientModInitializer {
 				"localtime.open.gui",
 				InputUtil.Type.KEYSYM,
 				GLFW.GLFW_KEY_R,
-				"localtime.category"
+				category
 		));
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			while (keyBinding.wasPressed()) {

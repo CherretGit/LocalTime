@@ -1,5 +1,5 @@
 {
-  "localtime.category": "LocalTime",
+  "key.category.localtime.keybindings": "LocalTime",
   "localtime.open.gui": "Open GUI",
   "localtime.current_local_time": "Current local time: %s",
   "localtime.server_time": "Server Time",
