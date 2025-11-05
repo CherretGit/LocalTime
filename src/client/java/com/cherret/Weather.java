@@ -4,6 +4,7 @@ public class Weather {
     private static boolean isWeatherSync = true;
     private static boolean isClear = true;
     private static boolean isRain = false;
+    private static boolean isSnow = false;
     public static boolean isWeatherSync() {
         return isWeatherSync;
     }
@@ -21,5 +22,11 @@ public class Weather {
     }
     public static void setRain(boolean rain) {
         isRain = rain;
+    }
+    public static boolean isSnow() {
+        return isSnow;
+    }
+    public static void setSnow(boolean snow) {
+        isSnow = snow;
     }
 }

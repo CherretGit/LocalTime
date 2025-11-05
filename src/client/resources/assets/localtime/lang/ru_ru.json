@@ -6,6 +6,7 @@
   "localtime.sync_weather": "Серверная погода",
   "localtime.clear_weather": "Ясно",
   "localtime.rain_weather": "Дождь",
+  "localtime.snow": "Снег",
   "localtime.done": "Готово",
   "localtime.local_time_editor": "Редактор локального времени"
 }

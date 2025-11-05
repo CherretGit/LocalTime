@@ -67,6 +67,11 @@ public class TimeScreen extends Screen {
                 setClear(false);
             }
         }).dimensions(x+50, y-27, 50, 20).build();
+        CheckboxWidget checkboxWidgetSnow = CheckboxWidget.builder(Text.translatable("localtime.snow"), textRenderer)
+                .option(SimpleOption.ofBoolean(this.toString(), isSnow()))
+                .callback((checkbox, checked) -> setSnow(checked))
+                .pos(x-140, y+10)
+                .build();
         ButtonWidget buttonWidget = ButtonWidget.builder(Text.translatable("localtime.done"), (btn) -> {
             close();
         }).dimensions(x-60, y+50, 120, 20).build();
@@ -81,6 +86,7 @@ public class TimeScreen extends Screen {
         this.addDrawableChild(checkboxWidgetWeather);
         this.addDrawableChild(buttonWidgetClear);
         this.addDrawableChild(buttonWidgetRain);
+        this.addDrawableChild(checkboxWidgetSnow);
         this.addDrawableChild(buttonWidget);
     }
 
@@ -96,6 +102,6 @@ public class TimeScreen extends Screen {
     }
     @Override
     public void close() {
-        this.client.setScreen(this.parent);
+        client.setScreen(this.parent);
     }
 }

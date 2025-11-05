@@ -6,6 +6,7 @@
   "localtime.sync_weather": "Sync Weather",
   "localtime.clear_weather": "Clear",
   "localtime.rain_weather": "Rain",
+  "localtime.snow": "Snow",
   "localtime.done": "Done",
   "localtime.local_time_editor": "Local Time Editor"
 }
