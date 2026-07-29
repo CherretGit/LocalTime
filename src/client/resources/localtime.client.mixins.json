@@ -3,13 +3,11 @@
   "package": "com.cherret.mixin.client",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "ClientWorldPropertiesMixin",
-    "ClientWorldWeather"
+    "ClientClockManagerMixin",
+    "ClientWorldWeather",
+    "ClientLevelWeatherMixin"
   ],
   "injectors": {
     "defaultRequire": 1
-  },
-  "mixins": [
-    "BiomeMixin"
-  ]
+  }
 }

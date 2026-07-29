@@ -1,36 +1,34 @@
 package com.cherret.mixin.client;
 
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.registry.DynamicRegistryManager;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.world.MutableWorldProperties;
-import net.minecraft.world.World;
-import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.core.Holder;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.WritableLevelData;
 import org.spongepowered.asm.mixin.Mixin;
 
 import static com.cherret.Weather.*;
 
-@Mixin(ClientWorld.class)
-public abstract class ClientWorldWeather extends World {
-    protected ClientWorldWeather(MutableWorldProperties properties, RegistryKey<World> registryRef, DynamicRegistryManager registryManager, RegistryEntry<DimensionType> dimensionEntry, boolean isClient, boolean debugWorld, long seed, int maxChainedNeighborUpdates) {
-        super(properties, registryRef, registryManager, dimensionEntry, isClient, debugWorld, seed, maxChainedNeighborUpdates);
+@Mixin(ClientLevel.class)
+public abstract class ClientWorldWeather extends Level {
+    protected ClientWorldWeather(WritableLevelData levelData, ResourceKey<Level> dimension, RegistryAccess registryAccess, Holder<net.minecraft.world.level.dimension.DimensionType> dimensionTypeRegistration, boolean isClientSide, boolean isDebug, long biomeZoomSeed, int maxChainedNeighborUpdates) {
+        super(levelData, dimension, registryAccess, dimensionTypeRegistration, isClientSide, isDebug, biomeZoomSeed, maxChainedNeighborUpdates);
     }
 
     @Override
     public boolean isRaining() {
-        return !isWeatherSync() && isRain();
+        if (!isWeatherSync()) {
+            return isRain() || isSnow();
+        }
+        return super.isRaining();
     }
 
     @Override
-    public float getRainGradient(float delta) {
+    public float getRainLevel(float delta) {
         if (!isWeatherSync()) {
-            if (isClear()) {
-                return 0;
-            } else if (isRain()) {
-                return 1.0f;
-            }
+            return (isRain() || isSnow()) ? 1.0f : 0.0f;
         }
-        return super.getRainGradient(1);
+        return super.getRainLevel(delta);
     }
 }
