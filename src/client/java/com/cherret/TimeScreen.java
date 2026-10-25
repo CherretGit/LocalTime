@@ -5,17 +5,19 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Checkbox;
+import net.minecraft.client.gui.components.CycleButton;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
 import static com.cherret.Time.*;
 import static com.cherret.Weather.*;
+import static com.cherret.WeatherType.*;
 
 public class TimeScreen extends Screen {
     public Screen parent;
     private static final Minecraft client = Minecraft.getInstance();
-    private Button buttonWidgetClear;
-    private Button buttonWidgetRain;
+    private static final int PANEL_WIDTH = 300;
+    private static final int PANEL_HEIGHT = 150;
 
     protected TimeScreen(Component title, Screen parent) {
         super(title);
@@ -24,11 +26,9 @@ public class TimeScreen extends Screen {
 
     @Override
     protected void init() {
-        int windowWidth = this.width;
-        int windowHeight = this.height;
-        int x = windowWidth / 2;
-        int y = windowHeight / 2;
-        AbstractSliderButton sliderWidgetTime = new AbstractSliderButton(x-20, y-67, 140, 20, Component.translatable("localtime.current_local_time", getTime()), (double) getTime() / 24000) {
+        int x = (this.width - PANEL_WIDTH) / 2;
+        int y = (this.height - PANEL_HEIGHT) / 2;
+        AbstractSliderButton sliderWidgetTime = new AbstractSliderButton(x + 130, y + 8, 140, 20, Component.translatable("localtime.current_local_time", getTime()), (double) getTime() / 24000) {
             @Override
             protected void updateMessage() {
                 setTime((long) (this.value * 24000));
@@ -43,66 +43,39 @@ public class TimeScreen extends Screen {
         };
         Checkbox checkboxWidgetTime = Checkbox.builder(Component.translatable("localtime.server_time"), font)
                 .selected(getIsTimeSync())
-                .onValueChange((button, value) -> {
-                    setIsTimeSync(value);
-                })
-                .pos(x-140, y-65)
+                .onValueChange((button, value) -> setIsTimeSync(value))
+                .pos(x + 10, y + 10)
                 .build();
         Checkbox checkboxWidgetWeather = Checkbox.builder(Component.translatable("localtime.sync_weather"), font)
                 .selected(isWeatherSync())
-                .onValueChange((button, value) -> {
-                    setWeatherSync(value);
-                })
-                .pos(x-140, y-25)
+                .onValueChange((button, value) -> setWeatherSync(value))
+                .pos(x + 10, y + 50)
                 .build();
-        buttonWidgetClear = Button.builder(Component.translatable("localtime.clear_weather"), (btn) -> {
-            setClear(true);
-            btn.active = false;
-            if (isRain()) {
-                buttonWidgetRain.active = true;
-                setRain(false);
-            }
-        }).bounds(x, y-27, 50, 20).build();
-        buttonWidgetRain = Button.builder(Component.translatable("localtime.rain_weather"), (btn) -> {
-            setRain(true);
-            btn.active = false;
-            if (isClear()) {
-                buttonWidgetClear.active = true;
-                setClear(false);
-            }
-        }).bounds(x+50, y-27, 50, 20).build();
-        Checkbox checkboxWidgetSnow = Checkbox.builder(Component.translatable("localtime.snow"), font)
-                .selected(isSnow())
-                .onValueChange((button, value) -> {
-                    setSnow(value);
-                })
-                .pos(x-140, y+10)
-                .build();
-        Button buttonWidget = Button.builder(Component.translatable("localtime.done"), (btn) -> {
-            onClose();
-        }).bounds(x-60, y+50, 120, 20).build();
-        if (isClear()) {
-            buttonWidgetClear.active = false;
-        }
-        else if (isRain()) {
-            buttonWidgetRain.active = false;
-        }
+        CycleButton<WeatherType> cycleButton = CycleButton
+                .builder(
+                        value -> Component.translatable(switch (value) {
+                            case CLEAR -> "localtime.clear_weather";
+                            case RAIN -> "localtime.rain_weather";
+                            case SNOW -> "localtime.snow";
+                        }),
+                        getWeatherType()
+                )
+                .withValues(CLEAR, RAIN, SNOW)
+                .create(x + 130, y + 48, 140, 20, Component.translatable("localtime.weather"),
+                        (button, value) -> setWeatherType(value));
+        Button buttonWidget = Button.builder(Component.translatable("localtime.done"), (btn) -> onClose()).bounds(x + 90, y + 125, 120, 20).build();
         this.addRenderableWidget(sliderWidgetTime);
         this.addRenderableWidget(checkboxWidgetTime);
         this.addRenderableWidget(checkboxWidgetWeather);
-        this.addRenderableWidget(buttonWidgetClear);
-        this.addRenderableWidget(buttonWidgetRain);
-        this.addRenderableWidget(checkboxWidgetSnow);
+        this.addRenderableWidget(cycleButton);
         this.addRenderableWidget(buttonWidget);
     }
 
     @Override
     public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
-        int windowWidth = this.width;
-        int windowHeight = this.height;
-        int x = (windowWidth - 300) / 2;
-        int y = (windowHeight - 150) / 2;
-        graphics.fill(x, y, x+300, y+150, 0x80000000);
+        int x = (this.width - PANEL_WIDTH) / 2;
+        int y = (this.height - PANEL_HEIGHT) / 2;
+        graphics.fill(x, y, x + PANEL_WIDTH, y + PANEL_HEIGHT, 0x80000000);
         super.extractRenderState(graphics, mouseX, mouseY, delta);
         graphics.text(this.font, Component.translatable("localtime.local_time_editor"), x, y - this.font.lineHeight - 10, 0xFFFFFFFF, false);
     }

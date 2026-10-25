@@ -15,10 +15,9 @@ public class ClientLevelWeatherMixin {
     @Inject(method = "getPrecipitationAt", at = @At("HEAD"), cancellable = true)
     private void onGetPrecipitationAt(BlockPos pos, CallbackInfoReturnable<Biome.Precipitation> cir) {
         if (!isWeatherSync()) {
-            if (isSnow()) {
-                cir.setReturnValue(Biome.Precipitation.SNOW);
-            } else if (isRain()) {
-                cir.setReturnValue(Biome.Precipitation.RAIN);
+            switch (getWeatherType()) {
+                case RAIN -> cir.setReturnValue(Biome.Precipitation.RAIN);
+                case SNOW -> cir.setReturnValue(Biome.Precipitation.SNOW);
             }
         }
     }

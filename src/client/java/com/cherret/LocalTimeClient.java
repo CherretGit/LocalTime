@@ -18,7 +18,7 @@ public class LocalTimeClient implements ClientModInitializer {
 	public void onInitializeClient() {
 		KeyMapping keyMapping = KeyMappingHelper.registerKeyMapping(new KeyMapping(
 				"localtime.open.gui",
-				InputConstants.Type.KEYSYM,
+				InputConstants.Type.KEYBOARD,
 				InputConstants.KEY_R,
 				CATEGORY
 		));

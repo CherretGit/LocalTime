@@ -1,5 +1,6 @@
 package com.cherret.mixin.client;
 
+import com.cherret.WeatherType;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
@@ -19,7 +20,7 @@ public abstract class ClientWorldWeather extends Level {
     @Override
     public boolean isRaining() {
         if (!isWeatherSync()) {
-            return isRain() || isSnow();
+            return hasPrecipitation();
         }
         return super.isRaining();
     }
@@ -27,8 +28,12 @@ public abstract class ClientWorldWeather extends Level {
     @Override
     public float getRainLevel(float delta) {
         if (!isWeatherSync()) {
-            return (isRain() || isSnow()) ? 1.0f : 0.0f;
+            return (hasPrecipitation()) ? 1.0f : 0.0f;
         }
         return super.getRainLevel(delta);
+    }
+
+    private boolean hasPrecipitation() {
+        return getWeatherType() == WeatherType.RAIN || getWeatherType() == WeatherType.SNOW;
     }
 }
